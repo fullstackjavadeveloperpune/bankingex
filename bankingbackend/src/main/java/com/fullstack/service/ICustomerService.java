@@ -20,4 +20,16 @@ public interface ICustomerService {
     Customer changeContactNumber(long custAccountNumber, long custContactNumber);
 
     Customer changeEmailId(long custAccountNumber, String custEmailId);
+
+    Customer depositAmount(long custAccountNumber, double amount);
+
+    Customer withdrawAmount(long custAccountNumber, double amount);
+
+    void verifyOTP(String custEmailId);
+
+    Customer transferFund(long fromCustAccountNumber, long toCustAccountNumber, String otp, double amount);
+
+
+
+
 }

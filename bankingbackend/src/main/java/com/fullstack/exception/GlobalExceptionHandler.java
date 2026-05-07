@@ -19,6 +19,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<?> handleInvalidAmountException(InvalidAmountException exception) {
+        return new ResponseEntity<>("errors{}: " + exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleInsufficientFundException(InsufficientFundException exception) {
+        return new ResponseEntity<>("errors{}: " + exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleInvalidOTPException(InvalidOTPException exception) {
+        return new ResponseEntity<>("errors{}: " + exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleCustomValidation(MethodArgumentNotValidException exception) {
         Map<String, String> errorMap = new LinkedHashMap<>();
 

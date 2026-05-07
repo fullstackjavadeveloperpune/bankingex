@@ -63,4 +63,29 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.changeEmailId(custAccountNumber, custEmailId), HttpStatus.OK);
     }
 
+    @PatchMapping("/deposit/{custAccountNumber}/{amount}")
+    public ResponseEntity<Customer> deposit(@PathVariable long custAccountNumber, @PathVariable double amount) {
+
+        return new ResponseEntity<>(customerService.depositAmount(custAccountNumber, amount), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/withdraw/{custAccountNumber}/{amount}")
+    public ResponseEntity<Customer> withdraw(@PathVariable long custAccountNumber, @PathVariable double amount) {
+
+        return new ResponseEntity<>(customerService.withdrawAmount(custAccountNumber, amount), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/verifyotp/{custEmailId}")
+    public ResponseEntity<String> verifyOTP(@PathVariable String custEmailId) {
+        customerService.verifyOTP(custEmailId);
+        return new ResponseEntity<>("Please check your email for OTP: ", HttpStatus.OK);
+    }
+
+    @PatchMapping("/transferfund/{fromCustAccountNumber}/{toCustAccountNumber}/{otp}/{amount}")
+    public ResponseEntity<String> transferFund(@PathVariable long fromCustAccountNumber, @PathVariable long toCustAccountNumber, @PathVariable String otp, @PathVariable double amount) {
+
+        customerService.transferFund(fromCustAccountNumber, toCustAccountNumber, otp, amount);
+
+        return new ResponseEntity<>("Fund Transfer Successfully", HttpStatus.OK);
+    }
 }
