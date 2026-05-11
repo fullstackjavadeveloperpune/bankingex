@@ -3,6 +3,7 @@ package com.fullstack.controller;
 import com.fullstack.dto.LogInRequest;
 import com.fullstack.entity.Customer;
 import com.fullstack.service.ICustomerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,22 +19,23 @@ import java.util.Optional;
 @RequestMapping("/customers")
 @RequiredArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "Bearer Auth")
 public class CustomerController {
 
     private final ICustomerService customerService;
 
-    @PostMapping("/signup")
+  /*  @PostMapping("/signup")
     public ResponseEntity<Customer> signUp(@RequestBody @Valid Customer customer) {
 
         log.info("@@@@@@@@Trying to save data for Customer: " + customer.getCustName());
         return new ResponseEntity<>(customerService.signUp(customer), HttpStatus.CREATED);
-    }
+    }*/
 
-    @PostMapping("/signin")
+    /*@PostMapping("/signin")
     public ResponseEntity<Boolean> signIn(@RequestBody LogInRequest logInRequest) {
 
         return new ResponseEntity<>(customerService.signIn(logInRequest.custEmailId(), logInRequest.custPassword()), HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/findbyid/{custId}")
     public ResponseEntity<Optional<Customer>> findById(@PathVariable long custId) {

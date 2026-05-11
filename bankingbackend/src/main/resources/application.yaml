@@ -2,6 +2,9 @@ spring:
   application:
     name: bankingbackend
 
+  main:
+    allow-circular-references: true
+
   datasource:
     url: jdbc:postgresql://localhost:5432/bankingdb
     username: postgres
@@ -32,3 +35,7 @@ spring:
           auth: true
           starttls:
             enable: true
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5990
+  expiration: 86400000

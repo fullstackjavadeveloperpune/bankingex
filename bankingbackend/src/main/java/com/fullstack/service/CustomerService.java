@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -26,6 +27,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerService implements ICustomerService {
+
+    private final PasswordEncoder passwordEncoder;
+
 
     private final CustomerRepository customerRepository;
 
@@ -40,7 +44,11 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer signUp(Customer customer) {
-        //
+
+        // Password Encryption
+
+        customer.setCustPassword(passwordEncoder.encode(customer.getCustPassword()));
+
         return customerRepository.save(customer);
     }
 

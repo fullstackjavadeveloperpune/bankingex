@@ -1,7 +1,6 @@
-package com.fullstack.entity;
+package com.fullstack.dto;
 
 import com.fullstack.constant.CustomerStatus;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -16,24 +15,20 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "customer")
-public class Customer {
+public class CustomerRequestDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;
 
-    @Column(unique = true)
     private long custAccountNumber;
 
-   // @Size(min = 2, message = "Customer Name should be at least 2 characters")
+    @Size(min = 2, message = "Customer Name should be at least 2 characters")
     private String custName;
 
+    @NotBlank(message = "Customer Address is required")
     private String custAddress;
 
-    //@Range(min = 1000000000, max = 9999999999L, message = "Contact Number must be 10 Digit")
-    @Column(unique = true)
+    @Range(min = 1000000000L, max = 9999999999L,
+            message = "Contact Number must be 10 Digit")
     private long custContactNumber;
 
     private double custAccountBalance;
@@ -42,22 +37,25 @@ public class Customer {
 
     private CustomerStatus customerStatus;
 
-    @Column(unique = true)
+    @Range(min = 100000000000L, max = 999999999999L,
+            message = "UID Number must be 12 Digit")
     private long custUID;
 
-    @Column(unique = true)
+    @Pattern(
+            regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$",
+            message = "Invalid PAN Card Number"
+    )
     private String custPanCard;
 
-   // @Email(message = "Email ID Must be valid")
-    @Column(unique = true)
+    @Email(message = "Email ID Must be valid")
+    @NotBlank(message = "Email ID is required")
     private String custEmailId;
 
-
-  /*  @NotBlank(message = "Password is required")
+    @NotBlank(message = "Password is required")
     @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,16}$",
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,16}$",
             message = "Password must be 8-16 characters long, include at least one uppercase, one lowercase, one number, and one special character"
-    )*/
+    )
     private String custPassword;
 
 }
