@@ -180,7 +180,7 @@ public class CustomerService implements ICustomerService {
 
         String mainOTP = otpStorage.get("OTP");
 
-        log.info("@@@@@@@ Main OTP: "+ mainOTP);
+        log.info("@@@@@@@ Main OTP: " + mainOTP);
 
 
         if (amount <= 0) {
@@ -217,6 +217,15 @@ public class CustomerService implements ICustomerService {
 
 
         return null;
+    }
+
+    @Override
+    public Double checkAccBalance(long custAccountNumber) {
+
+        Customer customer = customerRepository.findByCustAccountNumber(custAccountNumber).get();
+
+
+        return customer.getCustAccountBalance();
     }
 
     public String generateOtp() {

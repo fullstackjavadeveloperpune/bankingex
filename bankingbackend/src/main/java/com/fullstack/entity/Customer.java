@@ -1,6 +1,7 @@
 package com.fullstack.entity;
 
 import com.fullstack.constant.CustomerStatus;
+import com.fullstack.constant.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -59,5 +60,7 @@ public class Customer {
             message = "Password must be 8-16 characters long, include at least one uppercase, one lowercase, one number, and one special character"
     )*/
     private String custPassword;
+
+    private UserRole role;
 
 }

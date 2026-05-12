@@ -36,7 +36,7 @@ public class AuthController {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logInRequest.custEmailId(), logInRequest.custPassword()));
 
-        return new ResponseEntity<>(jwtUtil.generateToken(logInRequest.custEmailId()), HttpStatus.OK);
+        return new ResponseEntity<>(jwtUtil.generateToken(logInRequest.custEmailId(), logInRequest.role().toString()), HttpStatus.OK);
 
     }
 }

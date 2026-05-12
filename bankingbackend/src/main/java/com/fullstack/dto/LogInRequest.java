@@ -1,4 +1,6 @@
 package com.fullstack.dto;
 
-public record LogInRequest(String custEmailId, String custPassword) {
+import com.fullstack.constant.UserRole;
+
+public record LogInRequest(String custEmailId, String custPassword, UserRole role) {
 }

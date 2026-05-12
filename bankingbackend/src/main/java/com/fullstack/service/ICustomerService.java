@@ -30,6 +30,5 @@ public interface ICustomerService {
     Customer transferFund(long fromCustAccountNumber, long toCustAccountNumber, String otp, double amount);
 
 
-
-
+    Double checkAccBalance(long custAccountNumber);
 }

@@ -57,16 +57,16 @@ public class JWTUtil {
     }
 
     //For generating token
-    public String generateToken(String userEmail/*, String userRole*/) {
+    public String generateToken(String userEmail, String userRole) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userEmail/*, userRole*/);
+        return createToken(claims, userEmail, userRole);
     }
 
-    private String createToken(Map<String, Object> claims, String subject/*, String userRole*/) {
+    private String createToken(Map<String, Object> claims, String subject, String userRole) {
         return Jwts
                 .builder()
                 .setClaims(claims)
-                //.claim("role", userRole)
+                .claim("role", userRole)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))

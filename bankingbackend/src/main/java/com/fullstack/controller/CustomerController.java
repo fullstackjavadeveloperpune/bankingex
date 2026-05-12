@@ -24,18 +24,6 @@ public class CustomerController {
 
     private final ICustomerService customerService;
 
-  /*  @PostMapping("/signup")
-    public ResponseEntity<Customer> signUp(@RequestBody @Valid Customer customer) {
-
-        log.info("@@@@@@@@Trying to save data for Customer: " + customer.getCustName());
-        return new ResponseEntity<>(customerService.signUp(customer), HttpStatus.CREATED);
-    }*/
-
-    /*@PostMapping("/signin")
-    public ResponseEntity<Boolean> signIn(@RequestBody LogInRequest logInRequest) {
-
-        return new ResponseEntity<>(customerService.signIn(logInRequest.custEmailId(), logInRequest.custPassword()), HttpStatus.OK);
-    }*/
 
     @GetMapping("/findbyid/{custId}")
     public ResponseEntity<Optional<Customer>> findById(@PathVariable long custId) {
@@ -90,4 +78,11 @@ public class CustomerController {
 
         return new ResponseEntity<>("Fund Transfer Successfully", HttpStatus.OK);
     }
+
+    @GetMapping("/checkaccbalance/{custAccountNumber}")
+    public ResponseEntity<Double> checkAccountBalance(@PathVariable long custAccountNumber){
+
+        return new ResponseEntity<>(customerService.checkAccBalance(custAccountNumber), HttpStatus.OK);
+    }
+
 }

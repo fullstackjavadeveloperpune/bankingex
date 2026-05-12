@@ -1,6 +1,7 @@
 package com.fullstack.dto;
 
 import com.fullstack.constant.CustomerStatus;
+import com.fullstack.constant.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -57,5 +58,7 @@ public class CustomerRequestDTO {
             message = "Password must be 8-16 characters long, include at least one uppercase, one lowercase, one number, and one special character"
     )
     private String custPassword;
+
+    private UserRole role;
 
 }
