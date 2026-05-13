@@ -67,10 +67,11 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/**")// Public API
                                 .permitAll()
                                 // RBAC
-                                .requestMatchers("/customers/findall", "/customers/deposit", "/customers/withdraw", "/customers/changeemail").hasRole("ADMIN")
-                                .requestMatchers("/customers/deposit", "/customers/checkaccbalance", "/customers/withdraw").hasAnyRole("USER", "ADMIN")
+                                //.requestMatchers("/customers/findall", "/customers/deposit", "/customers/withdraw", "/customers/changeemail").hasRole("ADMIN")
+                                //.requestMatchers("/customers/deposit", "/customers/checkaccbalance", "/customers/withdraw").hasAnyRole("USER", "ADMIN")
                                 .anyRequest()
-                                .authenticated()) // Private API
+                                //.authenticated()) // Private API
+                                .permitAll())
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
                 .sessionManagement(session ->

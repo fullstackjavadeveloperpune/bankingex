@@ -5,18 +5,19 @@ import com.fullstack.entity.Customer;
 import com.fullstack.service.ICustomerService;
 import com.fullstack.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin(origins = "*")
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final JWTUtil jwtUtil;
@@ -28,6 +29,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<Customer> signUp(@RequestBody Customer customer) {
 
+        log.info("@@@@@@@Trying to signup for Customer: "+ customer.getCustName());
         return new ResponseEntity<>(customerService.signUp(customer), HttpStatus.CREATED);
     }
 

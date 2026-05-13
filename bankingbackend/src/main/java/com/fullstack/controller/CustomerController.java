@@ -15,6 +15,9 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 import java.util.Optional;
 
+
+@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/customers")
 @RequiredArgsConstructor
