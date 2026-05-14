@@ -69,7 +69,8 @@ public class SecurityConfig {
                                 // RBAC
                                 //.requestMatchers("/customers/findall", "/customers/deposit", "/customers/withdraw", "/customers/changeemail").hasRole("ADMIN")
                                 //.requestMatchers("/customers/deposit", "/customers/checkaccbalance", "/customers/withdraw").hasAnyRole("USER", "ADMIN")
-                                .anyRequest()
+                                .requestMatchers("/customers/**")
+                                // .anyRequest()
                                 //.authenticated()) // Private API
                                 .permitAll())
                 .exceptionHandling(exception ->
