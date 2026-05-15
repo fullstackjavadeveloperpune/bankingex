@@ -21,6 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -58,28 +63,87 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE", "PATCH","OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity
+
+                // ENABLE CORS
+                .cors(cors ->
+                        cors.configurationSource(corsConfigurationSource())
+                )
+
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(authReq ->
-                        authReq.requestMatchers("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+
+                        authReq
+
+                                // VERY IMPORTANT
+                                .requestMatchers(
+                                        org.springframework.http.HttpMethod.OPTIONS,
+                                        "/**"
+                                ).permitAll()
+
+                                // SWAGGER
+                                .requestMatchers(
+                                        "/v3/api-docs",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
+
+                                // AUTH APIs
+                                .requestMatchers("/auth/**")
                                 .permitAll()
-                                .requestMatchers("/auth/**")// Public API
-                                .permitAll()
-                                // RBAC
-                                //.requestMatchers("/customers/findall", "/customers/deposit", "/customers/withdraw", "/customers/changeemail").hasRole("ADMIN")
-                                //.requestMatchers("/customers/deposit", "/customers/checkaccbalance", "/customers/withdraw").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/customers/**")
-                                // .anyRequest()
-                                //.authenticated()) // Private API
-                                .permitAll())
+
+                                // ADMIN APIs
+                                .requestMatchers(
+                                        "/customers/findall",
+                                        "/customers/changeemail"
+                                ).hasRole("ADMIN")
+
+                                // USER + ADMIN APIs
+                                .requestMatchers(
+                                        "/customers/deposit",
+                                        "/customers/checkaccbalance",
+                                        "/customers/withdraw"
+                                ).hasAnyRole("USER", "ADMIN")
+
+                                .anyRequest()
+                                .authenticated()
+                )
+
                 .exceptionHandling(exception ->
-                        exception.authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
+                        exception.authenticationEntryPoint(
+                                (req, res, ex) ->
+                                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED)
+                        )
+                )
+
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
         httpSecurity.authenticationProvider(daoAuthenticationProvider());
-        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        httpSecurity.addFilterBefore(
+                jwtFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
+
         return httpSecurity.build();
     }
 }

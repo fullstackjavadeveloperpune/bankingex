@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import api from './axiosConfig'
 
 export const Show = () => {
 
@@ -17,7 +18,7 @@ export const Show = () => {
     const loadCustomers = async()=>{
 
 
-        const result = await axios.get("http://localhost:8080/customers/findall")
+        const result = await api.get("/customers/findall")
 
         setCustomers(result.data)
 
@@ -60,7 +61,7 @@ export const Show = () => {
 
                             <td>{customer.custAccountBalance}</td>
                             <td>{customer.custDOB}</td>
-                            <td>{customer.custStatus}</td>
+                            <td>{customer.customerStatus}</td>
                             <td>{customer.custUID}</td>
 
                             <td>{customer.custPanCard}</td>
@@ -74,12 +75,16 @@ export const Show = () => {
                                 <button className='btn btn-danger'>Delete</button>
 
                                 <Link className='btn btn-info'>Update</Link>
+
+                               <Link to={`/deposit`} className='btn btn-success'>Deposit</Link>
                             </td>
                         </tr>
                     ))
                 }
             </tbody>
         </table>
+
+        <Link className='btn btn-danger' to={`/`}>LogOut</Link>
 
     </div>
   )

@@ -27,6 +27,6 @@ public class CustomUserDetailService implements UserDetailsService {
         Customer customer = customerRepository.findByCustEmailId(username).get();
 
 
-        return new User(customer.getCustEmailId(), customer.getCustPassword(), List.of(new SimpleGrantedAuthority(customer.getRole().toString())));
+        return new User(customer.getCustEmailId(), customer.getCustPassword(), List.of(new SimpleGrantedAuthority("ROLE_"+customer.getRole().toString())));
     }
 }

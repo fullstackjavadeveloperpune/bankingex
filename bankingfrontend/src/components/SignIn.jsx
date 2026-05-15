@@ -24,10 +24,14 @@ export const SignIn = () => {
         e.preventDefault();
         const result = await axios.post("http://localhost:8080/auth/signin", customer);
 
+        localStorage.setItem("token", result.data)
+
         if(result.data){
+
+
             navigate(`/show`)
         }else{
-            alert("Oops Invalid Credentials, Plesae try again!!!!!!!")
+            
 
             navigate(`/`)
         }

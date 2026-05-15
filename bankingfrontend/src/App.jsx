@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { SignIn } from './components/SignIn'
 import { SignUp } from './components/SignUp'
 import { Show } from './components/Show'
+import { Deposit } from './components/Deposit'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +23,12 @@ function App() {
           <Route exact path='/signup' element={<SignUp />} />
 
           <Route exact path='/show' element={<Show />} />
+
+          <Route exact path='/deposit' element={<Deposit />} />
+
+          
+
+        
         </Routes>
       </Router>
 
